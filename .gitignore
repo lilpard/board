@@ -8,6 +8,8 @@ target/
 application.properties
 settings.xml
 
+mvnw.cmd
+mvnw
 
 ### STS ###
 .apt_generated
