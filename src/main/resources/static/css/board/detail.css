@@ -1,0 +1,163 @@
+@charset "UTF-8";
+	.container{
+		width: 970px;
+		margin: 30px auto;
+		padding: 20px;
+		text-align: center;
+		border: 1px solid #eee;
+	}
+	.container .header{
+		width: 675px;
+		margin: 8px auto;
+		font-size: 24px;
+		font-weight: 600;
+		padding: 10px;
+		border-radius: 10px;
+		box-shadow: 5px 5px 2px gray;
+		background: linear-gradient(to bottom,#337ab7 0,#265a88 100%);
+		color: white;
+		border: 1px solid black;
+		text-align: center;
+		outline: none;
+	}
+	.title {
+		width: 675px;
+		height: 50px;
+		margin-bottom: 5px;
+		padding-left: 10px;
+	}
+	.content{
+		width: 675px;
+		margin-bottom: 5px;
+		padding: 10px;
+		padding-bottom: 30px;
+		outline: none
+	}
+	.container .editable {
+	 	border: 2px solid cornflowerblue;
+	}
+	.form-insert{
+		position: relative;
+	}
+	#test_cnt{
+		position: absolute;
+		left: 47%;
+		bottom: 70px;
+	}
+	.inputReplyName{
+		width: 100px;
+	}
+	.inputReplyContent{
+		width: 500px;
+	}
+	.hitAndCreated{
+		width: 670px;
+		position: relative;
+		margin: 0 auto;
+	}
+	.writer{
+		position: absolute;
+		left: 10px;
+	}
+	.hit{
+		position: absolute;
+		right: 200px;
+	}
+	.created{
+		position: absolute;
+		right: 10px;
+	}
+	.editBtn, .resetBtn, .modifyBtn, .listBtn{
+		width: 160px;
+		height: 30px;
+		margin-left: 5px;
+		margin-right: 5px;
+	}
+	.deleteBtn{
+		width: 670px;
+		height: 50px;
+		margin-top: 10px;
+	}
+	.replyTable{
+		width: 740px;
+		margin: 10px auto;
+		border-top: 2px solid black;
+		border-bottom: 2px solid black;
+	}
+	.replyWriter{
+		width: 150px;
+	}
+	.replyContent{
+		width: 500px;
+	}
+	.replyNone{
+		margin-left: 30%;
+	}
+	.replyDeleteBtn:hover{
+		cursor: pointer;
+	}
+	.commentShow:hover{
+		cursor: pointer;
+	}
+	.commentWriter{
+		margin-left: 50px;
+	}
+	.inputComment{
+		margin-left: 20px;
+			
+	}
+	.commentContent{
+		margin-left: 20px;
+		width: 400px;
+	}
+	.commentCount{
+		font-size: 12px;
+	}
+	.inputComment{
+		text-align: left;
+	}
+	.inputCommentWriter1{
+		display: inline-block;
+		margin-left: 40px;
+		width: 80px;
+	}
+	.inputCommentWriter{
+		display: inline-block;
+		margin-left: 100px;
+		width: 80px;
+	}
+	.hide{
+		display: none;
+	}
+	.show{
+		display: flex;
+	}
+	.replyTable ul{
+		display: flex;
+		position: relative;
+		list-style-type: none;
+	}
+	.replyTable ul .replyDeleteBtn{
+		position: absolute;
+		right: 30px;
+	}	
+	.fa-replyd{
+		font-size: 24px;
+		color: #337ab7;
+	}
+	#paging {
+		position: relative;
+	}
+	#paging div{
+		position: relative;
+		left: 70px;
+		display: inline-flex;
+		justify-content: center;
+		padding: 0 10px 0 10px;
+	}
+	.disable_link {
+		color: lightgray;
+	}
+	.enable_link {
+		cursor: pointer;
+	}
