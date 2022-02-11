@@ -35,7 +35,7 @@
 
 	<insert id="addReply" parameterType="Reply">
 		INSERT INTO REPLY (RCONTENT, MNO, BNO, STATE, DEPTH, GROUP_NO, GROUP_ORD)
-		VALUES (#{rcontent}, #{mno}, #{bno}, 0, 0, (select MAX(RNO) FROM REPLY S) + 1, 0)
+		VALUES ( #{rcontent}, #{mno}, #{bno}, 0, 0, (select * from (select max(RNO) +1 from REPLY) next), 0)
 	</insert>
 	
 	<select id="replyTotalCnt" parameterType="Long" resultType="int">

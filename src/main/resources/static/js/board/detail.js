@@ -32,7 +32,7 @@
 					.append($('<input type="text" class="header" value="' + map.board.title +'" readOnly="true">'))
 					.append($('<div class="hitAndCreated">&nbsp;<span class="writer">작성자 : '+ map.board.member.name +'</span><span class="hit">조회수 : '+ map.board.hit +'</span><span class="created">게시일 : '+ map.board.created +'</span>&nbsp;</div>'))
 					.append($('<textarea class="content" id="content" rows="20" cols="70" placeholder="내용" readOnly="true">' + map.board.content +'</textarea>'))
-					if(loginUser == null){
+					if(loginUser == ''){
 						return;
 					} else{
 						if(loginMno == map.board.member.mno || loginId == 'admin'){
@@ -228,7 +228,7 @@
 					.append($('<a class="commentShow">').html('<li class="replyContent">' + reply.rcontent + '<span class="commentCnt'+reply.groupNo+' commentCount"></span></li>'))
 					.appendTo('.replyList');
 				}
-				if(loginUser != null){
+				if(loginUser != ''){
 					$('<div class="inputComment_wrap hide">')
 					.append($('<ul>')
 					.append($('<li class="inputComment"><span class="inputCommentWriter1"><i class="fab fa-replyd"></i>&nbsp;&nbsp;'+ loginName +'</span><input type="text" class="commentContent" placehoder="대댓글 내용" maxlength="30"/><input type="button" data-groupord="'+ reply.groupOrd +'" data-groupno="'+ reply.groupNo +'" class="addCommentBtn" value="등록"><input type="hidden" data-depth="'+ reply.depth +'" value="'+ reply.rno +'"></li>')))
@@ -324,7 +324,7 @@
 							.appendTo('#comment'+ comment.groupNo);
 						}
 						
-						if(loginUser != null){
+						if(loginUser != ''){
 							if(comment.depth < 9){
 								$('<ul class="inputComment_wrap hide">')
 								.append($('<li class="inputComment"><span class="inputCommentWriter"><i class="fab fa-replyd"></i>&nbsp;&nbsp;'+ loginName +'</span><input type="text" class="commentContent" placehoder="대댓글 내용" maxlength="30"/><input type="button" data-groupord="'+ comment.groupOrd +'" data-groupNo="'+ comment.groupNo +'" class="addCommentBtn" value="등록"><input type="hidden" data-depth="'+ comment.depth +'" value="'+ comment.rno +'"></li>'))
