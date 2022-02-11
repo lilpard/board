@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.board.repository.BoardRepository">
+
+	<resultMap type="Member" id="MemberMap">
+		<result column="MNO" property="mno"/>
+		<result column="ID" property="id"/>
+		<result column="PW" property="pw"/>
+		<result column="NAME" property="name"/>
+		<result column="EMAIL" property="email"/>		
+	</resultMap>
+	<resultMap type="Board" id="BoardMap">
+		<result column="BNO" property="bno"/>
+		<result column="TITLE" property="title"/>
+		<result column="CONTENT" property="content"/>
+		<result column="HIT" property="hit"/>
+		<result column="CREATED" property="created"/>
+		<result column="LASTMODIFIED" property="lastmodified"/>
+		<collection property="member" resultMap="MemberMap"></collection>		
+	</resultMap>
+
+	<insert id="insertBoard" parameterType="Board">
+		INSERT INTO BOARD (TITLE, CONTENT, HIT, CREATED, LASTMODIFIED, MNO)
+		VALUES (#{title}, #{content}, 0, NOW(), NOW(), #{mno})
+	</insert>
+	
+	<select id="boardTotalCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM BOARD 
+	</select>
+	
+	<select id="selectBoardList" parameterType="map" resultMap="BoardMap">
+		SELECT RN, C.BNO, C.TITLE, C.CONTENT, C.HIT, C.CREATED, C.LASTMODIFIED, C.MNO, C.ID, C.NAME
+		  FROM (SELECT @ROWNUM:=@ROWNUM+1 as RN, A.BNO, A.TITLE, A.CONTENT, A.HIT, A.CREATED, A.LASTMODIFIED, A.MNO, A.ID, A.NAME
+			  	  FROM(SELECT B.BNO, B.TITLE, B.CONTENT, B.HIT, B.CREATED, B.LASTMODIFIED, M.MNO, M.ID, M.NAME
+				  		 FROM MEMBER as M
+				 		INNER JOIN BOARD as B
+				       	   ON M.MNO = B.MNO
+				       	ORDER BY BNO DESC) A,
+				       	(SELECT @ROWNUM := 0) D	) C
+		 WHERE RN BETWEEN #{beginRecord} AND #{endRecord}
+	</select>
+	
+	<update id="boardHitUpdate" parameterType="Long">
+		UPDATE BOARD
+		   SET HIT = HIT + 1
+		 WHERE BNO = #{bno}
+	</update>
+	
+	<select id="selectBoardByBno" parameterType="Long" resultMap="BoardMap">
+		SELECT B.BNO, B.TITLE, B.CONTENT, B.HIT, B.CREATED, B.LASTMODIFIED, M.MNO, M.ID, M.NAME
+		  FROM MEMBER M
+		 INNER JOIN BOARD B
+		    ON M.MNO = B.MNO
+		 WHERE B.BNO = #{bno}
+	</select>
+	
+	<update id="updateBoard" parameterType="Board">
+		UPDATE BOARD
+		   SET TITLE = #{title}, CONTENT = #{content}
+		 WHERE BNO = #{bno}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="Long">
+		DELETE 
+		  FROM BOARD
+		 WHERE BNO = #{bno}
+	</delete>
+</mapper>

@@ -1,0 +1,18 @@
+@charset "UTF-8";
+	.form-signin-heading{
+		text-align: center;
+	}
+	.container{
+		border: 1px solid #eee;
+		padding: 10rem;
+		margin: 10rem;
+	}
+	.container input[type="text"], .container input[type="password"] , .container button{
+		width: 90%;
+		margin: 1rem auto;
+		height: 50px;
+	}
+	.checkbox{
+		width: 90%;
+		margin: 10px auto;
+	}

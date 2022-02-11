@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+	.development_tool_header{
+		margin-left: 20px;
+	}
+	.row:first-of-type{
+		border: 1px solid #eee;
+		padding: 10px;
+		margin: 5px;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr); 
+		grid-gap: 1rem 2rem;
+		align-items: center;
+		justify-items: center;
+	}
+	.row:first-of-type:before, .row:first-of-type:after {
+		display: none;
+	}

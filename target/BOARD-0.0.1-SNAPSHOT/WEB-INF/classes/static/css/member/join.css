@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+	.form-signin-heading{
+		text-align: center;
+	}
+	.inputwrap{
+		display: flex;	
+		justify-content: center;
+		line-height: 50px;
+	}
+	.container{
+		border: 1px solid #eee;
+		padding: 10rem;
+		margin: 10rem;
+	}
+	.container input[type="email"], .container input[type="text"]{
+		width: 600px;
+		height: 50px;	
+	} 
+	#inputId{
+		width: 400px;
+	}
+	#id_overlap_check{
+		margin-left: 10px;
+		width: 190px;
+		height: 50px;
+	}
+	.container input[type="password"]{
+		width: 600px;
+		height: 50px;	
+	} 
+	.container button{
+		width: 680px;
+		margin: 1rem auto;
+		height: 50px;
+	}
+	.checkbox{
+		width: 90%;
+		margin: 10px auto;
+	}
+	.email, .password, .name, .id{
+		width: 100px;
+	}
+	.enable {
+		display: flex;	
+		justify-content: center;
+		color: blue;	
+	}
+	.disable {
+		display: flex;	
+		justify-content: center;
+		color: red;
+	}
+	

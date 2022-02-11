@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.board.repository.ReplyRepository">
+
+	<resultMap type="Member" id="MemberMap">
+		<result column="MNO" property="mno"/>
+		<result column="ID" property="id"/>
+		<result column="PW" property="pw"/>
+		<result column="NAME" property="name"/>
+		<result column="EMAIL" property="email"/>		
+	</resultMap>
+	<resultMap type="Board" id="BoardMap">
+		<result column="BNO" property="bno"/>
+		<result column="TITLE" property="title"/>
+		<result column="CONTENT" property="content"/>
+		<result column="HIT" property="hit"/>
+		<result column="CREATED" property="created"/>
+		<result column="LASTMODIFIED" property="lastmodified"/>
+		<collection property="member" resultMap="MemberMap"></collection>		
+	</resultMap>
+
+	<resultMap type="Reply" id="ReplyMap">
+		<result column="RNO" property="rno"/>
+		<result column="RCONTENT" property="rcontent"/>
+		<result column="MNO" property="mno"/>
+		<result column="BNO" property="bno"/>
+		<result column="STATE" property="state"/>
+		<result column="DEPTH" property="depth"/>
+		<result column="GROUP_NO" property="groupNo"/>
+		<result column="GROUP_ORD" property="groupOrd"/>
+		<collection property="board" resultMap="BoardMap"></collection>
+		<collection property="member" resultMap="MemberMap"></collection>
+	</resultMap>
+
+	<insert id="addReply" parameterType="Reply">
+		INSERT INTO REPLY (RCONTENT, MNO, BNO, STATE, DEPTH, GROUP_NO, GROUP_ORD)
+		VALUES ( #{rcontent}, #{mno}, #{bno}, 0, 0, (select * from (select max(RNO) +1 from REPLY) next), 0)
+	</insert>
+	
+	<select id="replyTotalCnt" parameterType="Long" resultType="int">
+		SELECT COUNT(*)
+		  FROM REPLY
+		 WHERE BNO = #{bno}
+		   AND STATE = 0
+		   AND DEPTH = 0
+	</select>
+
+	<select id="commentTotalCnt" parameterType="Long" resultType="int">
+		SELECT COUNT(*)
+		  FROM REPLY
+		 WHERE GROUP_NO = #{groupNo}
+		   AND STATE = 0
+		   AND depth > 0
+	</select>
+	
+	<select id="selectReplyByBno"  parameterType="Map" resultMap="ReplyMap">
+		SELECT B.RN, B.RNO, B.RCONTENT, B.BNO, B.STATE, B.DEPTH, B.GROUP_NO, B.GROUP_ORD, B.MNO, B.NAME
+		  FROM(SELECT @ROWNUM:=@ROWNUM + 1 AS RN, A.RNO, A.RCONTENT, A.BNO, A.STATE, A.DEPTH, A.GROUP_NO, A.GROUP_ORD, A.MNO, A.NAME
+		  	     FROM (SELECT R.RNO, R.RCONTENT, R.BNO, R.STATE, R.DEPTH, R.GROUP_NO, R.GROUP_ORD, M.MNO, M.NAME
+				  	     FROM MEMBER M
+				  	     INNER JOIN REPLY R
+				  	       ON M.MNO = R.MNO
+				 	    WHERE STATE = 0
+				 	      AND DEPTH = 0
+				 	      AND BNO = #{bno}
+					    ORDER BY GROUP_NO DESC) A, (SELECT @ROWNUM:= 0) C) B
+		 WHERE B.RN BETWEEN #{beginRecord} and #{endRecord}
+	</select>
+
+	<select id="selectCommentByRno"  parameterType="Long" resultMap="ReplyMap">
+		SELECT  B.RNO, B.RCONTENT, B.BNO, B.STATE, B.DEPTH, B.GROUP_NO, B.GROUP_ORD, B.MNO, B.NAME
+		  FROM(SELECT A.RNO, A.RCONTENT, A.BNO, A.STATE, A.DEPTH, A.GROUP_NO, A.GROUP_ORD, A.MNO, A.NAME
+		  	     FROM (SELECT R.RNO, R.RCONTENT, R.BNO, R.STATE, R.DEPTH, R.GROUP_NO, R.GROUP_ORD, M.MNO, M.NAME
+				  	     FROM MEMBER M
+				  	    INNER JOIN REPLY R
+				  	       ON M.MNO = R.MNO
+				 	    WHERE STATE = 0
+				 	      AND DEPTH > 0
+				 	      AND GROUP_NO = #{groupNo}
+					    ORDER BY GROUP_NO DESC, GROUP_ORD ASC) A) B
+	</select>
+
+	<insert id="insertComment" parameterType="Reply">
+		INSERT INTO REPLY (RCONTENT, MNO, BNO, STATE, DEPTH, GROUP_NO, GROUP_ORD)
+		VALUES (#{rcontent}, #{mno}, #{bno}, 0, #{depth} + 1, #{groupNo}, #{groupOrd} + 1)
+	</insert>
+	
+	<update id="updatePreviousCommentGroupOrd" parameterType="Reply">
+		UPDATE REPLY
+		   SET GROUP_ORD = GROUP_ORD + 1
+		 WHERE GROUP_NO = #{groupNo}
+		   AND GROUP_ORD > #{groupOrd}
+	</update>
+	
+	<delete id="deleteReply" parameterType="Long">
+		DELETE FROM REPLY
+		 WHERE RNO = #{rno}
+	</delete>
+</mapper>
